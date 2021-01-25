@@ -1,0 +1,13 @@
+[package]
+name = "research_project"
+version = "0.1.0"
+authors = ["Gilles Mommerency"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sds011 = "0.2.1"
+rppal = "0.11.3"
+ccs811 = "0.1.3"
+paho-mqtt = { git = "https://github.com/eclipse/paho.mqtt.rust.git", branch = "master" }
