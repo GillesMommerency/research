@@ -16,18 +16,20 @@ use rppal::uart::{Parity, Uart};
 use std::str;
 use std::collections::HashMap;
 
+use chrono;
+use chrono::offset::Local;
+use chrono::DateTime;
+use std::time::SystemTime;
+
 use std::{
     env,
     process
 };
-
-extern crate paho_mqtt as mqtt;
+use  paho_mqtt as mqtt;
 const DFLT_BROKER:&str = "tcp://192.168.168.167:1883";
 const DFLT_CLIENT:&str = "rust_publish";
 const DFLT_TOPIC:&str = "rust/mqtt";
 const QOS:i32 = 1;
-
-
  
 fn main(){
     let mut data_dict: HashMap<String, f32>  = HashMap::new();
@@ -206,7 +208,10 @@ fn mqttfn(data_dict: &mut HashMap<String, f32>){
     // Create a message and publish it.
     // Publish messages to 'test' topics with sensordata.
     for (key_variable, value_variable) in data_dict.iter() {
-    let message: String = format!(" {:?}: {:?}",key_variable, value_variable);
+    let system_time = SystemTime::now();
+    let datetime: DateTime<Local> = system_time.into();
+    println!("{}", datetime);
+    let message: String = format!(" {:?}: {:?}, Time: {:?}",key_variable, value_variable, datetime);
     let msg = mqtt::Message::new(DFLT_TOPIC, message.clone(), QOS);
     println!("Publishing messages on the {:?} topic", DFLT_TOPIC);
     let _tok = cli.publish(msg);
